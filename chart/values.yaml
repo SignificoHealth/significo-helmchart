@@ -1,0 +1,30 @@
+# Default values for shadowflight-backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+serviceAccountName: shadowflight
+replicaCount: 1
+revisionHistoryLimit: 0
+nodegroup: dev
+image:
+  repository: significo/recco-backend
+  tag: latest
+  pullPolicy: Always
+  imageSecretName: significo-dockerhub
+vault:
+  path: kv/data/shadowflight/dev/backend
+  role: shadowflight
+primaryDomainName: recco-api.significo.dev
+resources:
+  requests:
+    cpu: "1"
+    memory: "2Gi"
+service:
+  type: ClusterIP
+springProfilesActive: prod
+
+cloudAgnostic:
+  datadog:
+    env: dev

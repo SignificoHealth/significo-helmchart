@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shadowflight-backend
+  labels:
+    app: shadowflight-backend
+    chart: {{ template "shadowflight-backend.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    version: {{ .Values.image.tag }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  replicas: {{ int .Values.replicaCount }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }} # Default to 10 if not specified
+  selector:
+    matchLabels:
+      app: shadowflight-backend
+      release: {{ .Release.Name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: shadowflight-backend
+        chart: {{ template "shadowflight-backend.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        version: {{ .Values.image.tag }}
+        tags.datadoghq.com/env: {{ .Values.cloudAgnostic.datadog.env }}
+        tags.datadoghq.com/service: shadowflight-backend
+        tags.datadoghq.com/version: {{ .Values.image.tag }}
+        admission.datadoghq.com/enabled: "true"
+      annotations:
+        admission.datadoghq.com/java-lib.version: v1.19.0
+        traffic.sidecar.istio.io/excludeOutboundPorts: "8200"
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: "{{ .Values.vault.role }}"
+        vault.hashicorp.com/agent-inject-secret-secrets: "{{ .Values.vault.path }}"
+        vault.hashicorp.com/agent-inject-template-secrets: |
+           {{`{{- with secret "`}}{{ .Values.vault.path }}" -}}
+            {{` set -e
+             {{- range $key, $value := .Data.data }}
+               export {{ $key }}={{ $value }}
+             {{- end }}
+           {{- end }}`}}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      imagePullSecrets:
+        - name: {{ .Values.image.imageSecretName}} 
+      containers:
+        - name: shadowflight-backend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              name: http
+          {{- if .Values.resources }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          env:
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: BASH_ENV
+            value: /vault/secrets/secrets
+          - name: DEBUG
+            value: "true"
+      nodeSelector:
+          node.group: {{ .Values.nodegroup }}
+      restartPolicy: Always
