@@ -29,12 +29,6 @@ jobs:
         NEW_VERSION=${{ github.event.release.tag_name }}
         sed -i "s/^version: .*/version: $NEW_VERSION/" significo-chart/Chart.yaml
         helm package ./significo-chart
-  
-    - name: Publish
-      run: |
-        echo ${{ secrets.SIAB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        helm push significo-chart-${{ github.event.release.tag_name }} ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:${{ github.sha }}
-
 
     - name: Clean up
       run: rm -f ./significo-chart-2023.7.1.tgz
