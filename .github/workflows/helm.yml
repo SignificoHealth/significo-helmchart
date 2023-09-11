@@ -22,7 +22,7 @@ jobs:
       run: |
         NEW_VERSION=${{ github.event.release.tag_name }}
         sed -i "s/^version: .*/version: $NEW_VERSION/" significo-chart/Chart.yaml
-         helm lint significo-chart
+        helm lint significo-chart
 
     - name: Package Helm Chart
       run: |
