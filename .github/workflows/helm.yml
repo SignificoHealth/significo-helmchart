@@ -24,15 +24,14 @@ jobs:
     - name: Package Helm Chart
       run: |
         helm package ./significo-chart
-        mv *.tgz ./helm-package.tgz
 
     - name: Publish Helm Chart to GitHub Packages
       uses: softprops/action-gh-release@v1
       with:
-        files: ./helm-package.tgz
+        files: ./significo-chart-2023.7.1.tgz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Clean up
-      run: rm -f ./helm-package.tgz
+      run: rm -f ./significo-chart-2023.7.1.tgz
 
