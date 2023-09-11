@@ -4,7 +4,7 @@ home: https://github.com/viluahealthcare/significo-in-a-box
 maintainers:
   - email: zjestrella1@gmail.com
     name: zestrells
-name: shadowflight-backend
+name: significo-chart
 type: application
 sources:
   - https://github.com/viluahealthcare/significo-in-a-box

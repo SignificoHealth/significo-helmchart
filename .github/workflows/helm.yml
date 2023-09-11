@@ -19,11 +19,11 @@ jobs:
         helm-version: 'v3.7.1' # Update to the desired Helm version
 
     - name: Lint Helm Chart
-      run: helm lint chart/
+      run: helm lint significo-chart
 
     - name: Package Helm Chart
       run: |
-        helm package ./chart
+        helm package ./significo-chart
         mv *.tgz ./helm-package.tgz
 
     - name: Publish Helm Chart to GitHub Packages
