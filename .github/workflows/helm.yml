@@ -1,9 +1,9 @@
 name: Helm Chart Publish
 
 on:
-  push:
-    branches:
-      - main # You can specify the branch you want to trigger this workflow on
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,6 +23,8 @@ jobs:
 
     - name: Package Helm Chart
       run: |
+        NEW_VERSION=${{ github.event.release.name }}
+        sed -i "s/^version: .*/version: $NEW_VERSION/" significo-chart/Chart.yaml
         helm package ./significo-chart
 
     - name: Publish Helm Chart to GitHub Packages
