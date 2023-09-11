@@ -19,18 +19,21 @@ jobs:
         helm-version: 'v3.7.1' # Update to the desired Helm version
 
     - name: Lint Helm Chart
-      run: helm lint significo-chart
+      run: |
+        NEW_VERSION=${{ github.event.release.tag_name }}
+        sed -i "s/^version: .*/version: $NEW_VERSION/" significo-chart/Chart.yaml
+         helm lint significo-chart
 
     - name: Package Helm Chart
       run: |
-        NEW_VERSION=${{ github.event.release.name }}
+        NEW_VERSION=${{ github.event.release.tag_name }}
         sed -i "s/^version: .*/version: $NEW_VERSION/" significo-chart/Chart.yaml
         helm package ./significo-chart
 
     - name: Publish Helm Chart to GitHub Packages
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: 2023.7.1
+        tag_name: ${{ github.event.release.tag_name ))
         files: ./significo-chart-2023.7.1.tgz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
