@@ -29,14 +29,12 @@ jobs:
         NEW_VERSION=${{ github.event.release.tag_name }}
         sed -i "s/^version: .*/version: $NEW_VERSION/" significo-chart/Chart.yaml
         helm package ./significo-chart
+  
+    - name: Publish
+      run: |
+        echo ${{ secrets.SIAB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        helm push significo-chart-${{ github.event.release.tag_name }} ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:${{ github.sha }}
 
-    - name: Publish Helm Chart to GitHub Packages
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: "${{ github.event.release.tag_name }}"
-        files: ./significo-chart-${{ github.event.release.tag_name }}.tgz
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Clean up
       run: rm -f ./significo-chart-2023.7.1.tgz
