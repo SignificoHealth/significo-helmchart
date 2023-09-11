@@ -1,0 +1,38 @@
+name: Helm Chart Publish
+
+on:
+  push:
+    branches:
+      - main # You can specify the branch you want to trigger this workflow on
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v1
+      with:
+        helm-version: 'v3.7.1' # Update to the desired Helm version
+
+    - name: Lint Helm Chart
+      run: helm lint chart/
+
+    - name: Package Helm Chart
+      run: |
+        helm package ./chart
+        mv *.tgz ./helm-package.tgz
+
+    - name: Publish Helm Chart to GitHub Packages
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ./helm-package.tgz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Clean up
+      run: rm -f ./helm-package.tgz
+
