@@ -28,6 +28,7 @@ jobs:
     - name: Publish Helm Chart to GitHub Packages
       uses: softprops/action-gh-release@v1
       with:
+        tag_name: 2023.7.1
         files: ./significo-chart-2023.7.1.tgz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
