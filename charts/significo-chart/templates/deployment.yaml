@@ -8,8 +8,6 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     version: {{ .Values.image.tag }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
 spec:
   replicas: {{ int .Values.replicaCount }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }} # Default to 10 if not specified
