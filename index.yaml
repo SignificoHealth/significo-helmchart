@@ -2,6 +2,21 @@ apiVersion: v1
 entries:
   significo-chart:
   - apiVersion: v2
+    created: "2023-09-11T21:01:54.191256274Z"
+    description: A Helm chart for Shadowflight Backend used at Significo
+    digest: 417d443d8c5ae201fbccfcce47db47cddaa8d7e3c8c3a4ef1bbd8ab8ad0d3044
+    home: https://github.com/viluahealthcare/significo-in-a-box
+    maintainers:
+    - email: zjestrella1@gmail.com
+      name: zestrells
+    name: significo-chart
+    sources:
+    - https://github.com/viluahealthcare/significo-in-a-box
+    type: application
+    urls:
+    - https://github.com/SignificoHealth/significo-helmchart/releases/download/significo-chart-0.1.1/significo-chart-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     created: "2023-09-11T20:20:53.543801525Z"
     description: A Helm chart for Shadowflight Backend used at Significo
     digest: b7d48d8d58450931f529be359b8612069dd1625d49bdc5ad71e4e30733ddc50a
@@ -31,4 +46,4 @@ entries:
     urls:
     - https://github.com/SignificoHealth/significo-helmchart/significo-chart-0.0.3.tgz
     version: 0.0.3
-generated: "2023-09-11T20:20:53.543808126Z"
+generated: "2023-09-11T21:01:54.191269474Z"
