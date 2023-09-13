@@ -7,7 +7,3 @@ spec:
   selector:
     matchLabels:
       app: shadowflight-backend
-      chart: {{ template "shadowflight-backend.chart" . }}
-      release: {{ .Release.Name }}
-      heritage: {{ .Release.Service }}
-      version: {{ .Values.image.tag }}
