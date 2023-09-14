@@ -1,5 +1,5 @@
 apiVersion: v2
-description: A Helm chart for Shadowflight Backend used at Significo
+description: A Helm chart for Significo apps
 home: https://github.com/viluahealthcare/significo-in-a-box
 maintainers:
   - email: zjestrella1@gmail.com
@@ -8,4 +8,4 @@ name: significo-chart
 type: application
 sources:
   - https://github.com/viluahealthcare/significo-in-a-box
-version: 0.1.2
+version: 0.1.3

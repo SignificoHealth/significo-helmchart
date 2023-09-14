@@ -2,6 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+applicationName: "significo-app
 nameOverride: ""
 fullnameOverride: ""
 serviceAccountName: shadowflight
@@ -9,12 +10,12 @@ replicaCount: 1
 revisionHistoryLimit: 0
 nodegroup: dev
 image:
-  repository: significo/recco-backend
+  repository: significo/significo-app
   tag: latest
   pullPolicy: Always
   imageSecretName: significo-dockerhub
 vault:
-  path: kv/data/shadowflight/dev/backend
+  path: kv/data/shadowflight/dev/
   role: shadowflight
 primaryDomainName: recco-api.significo.dev
 resources:
@@ -23,6 +24,9 @@ resources:
     memory: "2Gi"
 service:
   type: ClusterIP
+  containerPort: 8080
+  vsDestination: shadowflight-backend.shadowflight.svc.cluster.local
+  istioGateway: istio-system/shadowflight-gateway
 springProfilesActive: prod
 datadog:
   env: dev
