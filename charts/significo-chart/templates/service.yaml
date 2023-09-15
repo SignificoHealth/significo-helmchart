@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ Values.applicationName }}
+  name: {{ .Values.applicationName }}
   labels:
-    app: {{ Values.applicationName }}
+    app: {{ .Values.applicationName }}
 spec:
   selector:
-    app: {{ Values.applicationName }}
+    app: {{ .Values.applicationName }}
     release: {{ .Release.Name }}
   type: {{ .Values.service.type }}
   ports:
