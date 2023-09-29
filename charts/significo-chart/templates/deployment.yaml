@@ -31,6 +31,7 @@ spec:
       annotations:
         admission.datadoghq.com/java-lib.version: v1.19.0
         traffic.sidecar.istio.io/excludeOutboundPorts: "8200"
+        {{- if ne .Values.disableVault true }}
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/role: "{{ .Values.vault.role }}"
         vault.hashicorp.com/agent-inject-secret-secrets: "{{ .Values.vault.path }}"
@@ -41,10 +42,11 @@ spec:
                export {{ $key }}={{ $value }}
              {{- end }}
            {{- end }}`}}
+        {{- end }}
     spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       imagePullSecrets:
-        - name: {{ .Values.image.imageSecretName}} 
+        - name: {{ .Values.image.imageSecretName}}
       containers:
         - name: {{ .Values.applicationName }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -62,8 +64,10 @@ spec:
           env:
             - name: DD_LOGS_INJECTION
               value: "true"
+            {{- if ne .Values.disableVault true }}
             - name: BASH_ENV
               value: /vault/secrets/secrets
+            {{- end }}
             - name: DEBUG
               value: "true"
           {{- if .Values.env }}
