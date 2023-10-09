@@ -1,6 +1,8 @@
 # Default values for shadowflight-backend.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+deployment:
+  template: "default"
 
 applicationName: significo-app
 nameOverride: ""
