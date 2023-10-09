@@ -2,6 +2,21 @@ apiVersion: v1
 entries:
   significo-chart:
   - apiVersion: v2
+    created: "2023-10-09T20:03:26.081559512Z"
+    description: A Helm chart for Significo apps
+    digest: 0b4bc63b8e00a4ed9bbd627ecf2b48dacc6536d040e040a0d85044256dc72d83
+    home: https://github.com/viluahealthcare/significo-in-a-box
+    maintainers:
+    - email: zjestrella1@gmail.com
+      name: zestrells
+    name: significo-chart
+    sources:
+    - https://github.com/viluahealthcare/significo-in-a-box
+    type: application
+    urls:
+    - https://github.com/SignificoHealth/significo-helmchart/releases/download/significo-chart-0.1.9/significo-chart-0.1.9.tgz
+    version: 0.1.9
+  - apiVersion: v2
     created: "2023-10-09T19:24:01.245346766Z"
     description: A Helm chart for Significo apps
     digest: 98efbe3905897ee5a171ee0e2d9dc78fc635fd9a81faab21d401bbdb13da3472
@@ -151,4 +166,4 @@ entries:
     urls:
     - https://github.com/SignificoHealth/significo-helmchart/significo-chart-0.0.3.tgz
     version: 0.0.3
-generated: "2023-10-09T19:24:01.245389667Z"
+generated: "2023-10-09T20:03:26.081613313Z"
