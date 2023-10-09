@@ -8,4 +8,4 @@ name: significo-chart
 type: application
 sources:
   - https://github.com/viluahealthcare/significo-in-a-box
-version: 0.1.7
+version: 0.1.8
