@@ -65,10 +65,6 @@ spec:
           env:
             - name: DD_LOGS_INJECTION
               value: "true"
-            {{- if ne .Values.disableVault true }}
-            - name: BASH_ENV
-              value: /vault/secrets/secrets
-            {{- end }}
             - name: DEBUG
               value: "true"
           {{- if .Values.env }}
