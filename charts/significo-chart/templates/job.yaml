@@ -1,0 +1,47 @@
+{{- if eq .Values.job.template "default" -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.job.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.job.name }}
+spec:
+  schedule: "{{ .Values.job.schedule }}"
+  suspend: {{ .Values.job.suspend }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: {{ .Values.job.name }}
+          annotations:
+            sidecar.istio.io/inject: "false"
+            vault.hashicorp.com/agent-inject: "true"
+            vault.hashicorp.com/agent-pre-populate-only: "true"
+            vault.hashicorp.com/role: {{ .Values.vault.role }}
+            vault.hashicorp.com/agent-inject-secret-secrets: {{ .Values.vault.path }}
+            vault.hashicorp.com/agent-inject-template-secrets: |
+              {{`{{- with secret "`}}{{ .Values.vault.path }}" -}}
+                  {{` set -e
+                    {{- range $key, $value := .Data.data }}
+                      export {{ $key }}={{ $value }}
+                    {{- end }}
+                  {{- end }}`}}
+        spec:
+          serviceAccountName: {{ .Values.serviceAccountName }}
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: {{ .Values.image.imageSecretName }}
+          containers:
+            - name: {{ .Values.job.name }}
+              image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              resources:
+                requests:
+                  cpu: {{ .Values.resources.requests.cpu }}
+                  memory: {{ .Values.resources.requests.memory }}
+          nodeSelector:
+            node.group: {{ .Values.nodegroup }}
+
+{{- end }}
