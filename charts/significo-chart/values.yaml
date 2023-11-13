@@ -43,3 +43,4 @@ service:
 springProfilesActive: prod
 datadog:
   env: dev
+  admissions: 'admission.datadoghq.com/java-lib.version: v1.19.0'
