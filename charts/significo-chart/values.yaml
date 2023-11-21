@@ -4,6 +4,7 @@
 deployment:
   template: "default"
 
+product: significo
 applicationName: significo-app
 nameOverride: ""
 fullnameOverride: ""
