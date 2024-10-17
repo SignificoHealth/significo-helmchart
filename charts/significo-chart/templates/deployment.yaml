@@ -59,8 +59,6 @@ spec:
           {{- toYaml .Values.volumeMounts | nindent 12 }}
           {{- end }}
           env:
-            - name: DD_LOGS_INJECTION
-              value: "true"
             - name: DEBUG
               value: "true"
           {{- if .Values.env }}
