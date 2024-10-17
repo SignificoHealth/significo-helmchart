@@ -25,12 +25,7 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
         version: {{ .Values.image.tag }}
-        tags.datadoghq.com/env: {{ .Values.datadog.env }}
-        tags.datadoghq.com/service: {{ .Values.applicationName }}
-        tags.datadoghq.com/version: {{ .Values.image.tag }}
-        admission.datadoghq.com/enabled: "true"
       annotations:
-        admission.datadoghq.com/java-lib.version: v1.19.0
         traffic.sidecar.istio.io/excludeOutboundPorts: "8200"
         {{- if ne .Values.disableVault true }}
         vault.hashicorp.com/agent-inject: 'true'
