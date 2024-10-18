@@ -8,6 +8,9 @@ metadata:
 spec:
   hosts:
     - "{{ .Values.primaryDomainName }}"
+    {{- if .Values.secondaryDomainName }}
+    - "{{ .Values.secondaryDomainName }}"
+    {{- end }}
   gateways:
     - {{ .Values.service.istioGateway }}
   http:
